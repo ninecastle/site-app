@@ -60,6 +60,20 @@ jobs:
             desktop/dist/*.exe
             desktop/dist/*.dmg
 
+  # 아이폰 앱은 서명 없이 설치 파일을 만들 수 없어서, 여기서는 "빌드가 되는지"만 확인합니다.
+  # 실제 설치는 맥의 Xcode 에서 ios/SiteApp.xcodeproj 를 열어 진행하세요 (README 참고).
+  ios-check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build for iOS Simulator
+        working-directory: ios
+        run: |
+          xcodebuild -version
+          xcodebuild -project SiteApp.xcodeproj -target SiteApp -configuration Debug \
+            -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build | tail -30
+          test ${PIPESTATUS[0]} -eq 0
+
   release:
     needs: [android, desktop]
     runs-on: ubuntu-latest

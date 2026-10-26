@@ -1,4 +1,4 @@
-# 사이트 → 앱 변환기 (안드로이드 + 윈도우 + 맥)
+# 사이트 → 앱 변환기 (안드로이드 + 아이폰 + 윈도우 + 맥)
 
 아무 웹사이트나 주소창 없이 **원래 앱처럼** 열리는 앱으로 만들어 줍니다.
 지금은 테스트용으로 YouTube가 들어 있어요.
@@ -44,6 +44,27 @@ Android Studio → **Open** → `android` 폴더 선택 → 폰을 USB로 연결
 (또는 터미널에서 `cd android && ./gradlew assembleRelease` →
 `android/app/build/outputs/apk/release/app-release.apk`)
 
+### D. 아이폰·아이패드 (맥 + Xcode 필요)
+애플은 앱스토어 밖 설치 파일(APK 같은 것)을 허용하지 않아서, **맥의 Xcode로 폰에 직접 설치**합니다.
+
+1. 맥에서 `ios/SiteApp.xcodeproj` 더블클릭 → Xcode가 열림 (Xcode 16 이상)
+2. Xcode 메뉴 **Settings → Accounts → +** 로 애플 ID 로그인 (무료 계정 OK)
+3. 왼쪽에서 **SiteApp** 프로젝트 → **Signing & Capabilities** → **Team** 에서 내 이름 선택
+   - "번들 ID를 쓸 수 없다"고 나오면 Bundle Identifier 끝에 아무 글자나 붙이기 (예: `com.ninecastle.siteapp.sihoo`)
+4. 아이폰을 USB로 연결 → 위쪽 기기 선택에서 내 아이폰 고르기 → ▶ (Run)
+5. 아이폰에서 처음 한 번:
+   - **설정 → 개인정보 보호 및 보안 → 개발자 모드** 켜기 (재시동)
+   - **설정 → 일반 → VPN 및 기기 관리** → 내 애플 ID → **신뢰**
+
+> 무료 애플 ID로 설치한 앱은 **7일 뒤 실행이 안 돼요.** 그때 다시 ▶ 를 누르면 됩니다.
+> (유료 개발자 계정 $99/년이면 1년 유지 + TestFlight로 남에게 배포 가능)
+>
+> 사이트를 바꿀 땐 `ios/SiteApp/SiteConfig.swift` 의 주소와,
+> Xcode → General → **Display Name** 도 같이 바꿔 주세요.
+
+**빌드 없이 바로 쓰는 방법:** 아이폰 사파리에서 사이트를 열고 **공유 → 홈 화면에 추가**
+→ "웹 앱으로 열기"를 켜면 주소창 없이 앱처럼 열려요. 7일 제한도 없어요.
+
 ## 3. 설치할 때 알아둘 것
 - **안드로이드**: APK를 폰으로 옮겨서 열면 "출처를 알 수 없는 앱" 허용을 물어봐요. 허용하면 설치됩니다.
 - **윈도우**: 서명이 없어서 "Windows의 PC 보호" 창이 뜨면 *추가 정보 → 실행*.
@@ -74,6 +95,7 @@ Android Studio → **Open** → `android` 폴더 선택 → 폰을 USB로 연결
 ```
 site.json                  ← 사이트 설정 (여기만 고치면 됨)
 android/                   ← 안드로이드 웹뷰 앱 (Java)
+ios/                       ← 아이폰·아이패드 앱 (SwiftUI, Xcode로 설치)
 desktop/                   ← 윈도우·맥 앱 (Electron)
 .github/workflows/build.yml← GitHub 자동 빌드
 ```
