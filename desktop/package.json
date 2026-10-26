@@ -1,0 +1,18 @@
+{
+  "name": "site-app-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "site.json 의 사이트를 앱처럼 띄우는 데스크톱 래퍼",
+  "main": "main.js",
+  "scripts": {
+    "copy-config": "node -e \"require('fs').copyFileSync('../site.json','site.json')\"",
+    "start": "npm run copy-config && electron .",
+    "dist": "npm run copy-config && electron-builder --config electron-builder.config.js --publish never",
+    "dist:mac": "npm run copy-config && electron-builder --config electron-builder.config.js --mac --publish never",
+    "dist:win": "npm run copy-config && electron-builder --config electron-builder.config.js --win --publish never"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0"
+  }
+}

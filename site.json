@@ -1,0 +1,8 @@
+{
+  "name": "YouTube",
+  "url": "https://m.youtube.com/",
+  "desktopUrl": "https://www.youtube.com/",
+  "themeColor": "#0f0f0f",
+  "androidId": "com.ninecastle.siteapp",
+  "desktopId": "com.ninecastle.siteapp.desktop"
+}

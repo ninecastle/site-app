@@ -1,0 +1,40 @@
+plugins {
+    id 'com.android.application'
+}
+
+// 사이트 주소·앱 이름은 프로젝트 맨 위의 site.json 하나에서 읽어옵니다.
+def site = new groovy.json.JsonSlurper().parse(rootProject.file('../site.json'))
+
+android {
+    namespace 'com.siteapp.wrapper'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId site.androidId ?: 'com.siteapp.wrapper'
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+
+        resValue 'string', 'app_name', site.name
+        resValue 'color', 'theme_color', site.themeColor ?: '#000000'
+        buildConfigField 'String', 'START_URL', "\"${site.url}\""
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // 테스트용: 별도 키 없이 설치할 수 있게 디버그 키로 서명
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
