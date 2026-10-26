@@ -5,9 +5,11 @@ module.exports = {
   productName: site.name,
   files: ['main.js', 'site.json', 'package.json'],
   directories: { buildResources: 'build', output: 'dist' },
+  afterPack: './after-pack.js',
   mac: {
     target: [{ target: 'dmg', arch: ['arm64', 'x64'] }],
     category: 'public.app-category.utilities',
+    identity: null, // 유료 인증서 서명은 건너뛰고 after-pack.js 의 ad-hoc 서명 사용
   },
   win: {
     target: [
