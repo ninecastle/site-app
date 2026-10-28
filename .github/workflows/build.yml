@@ -27,7 +27,7 @@ jobs:
           ./gradlew assembleRelease --no-daemon
       - name: Rename APK
         run: |
-          NAME=$(python3 -c "import json;print(json.load(open('site.json'))['name'])")
+          NAME=$(python3 -c "import json;d=json.load(open('site.json'));print(d.get('fileName') or 'app')")
           mkdir -p out
           cp android/app/build/outputs/apk/release/app-release.apk "out/${NAME}.apk"
       - uses: actions/upload-artifact@v4
