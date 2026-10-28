@@ -24,6 +24,13 @@ const isSameSite = (url) => {
 
 app.setName(site.name);
 
+// 구글 로그인은 Electron 앱으로 보이면 "안전하지 않은 브라우저"로 막히므로,
+// User-Agent 에서 Electron/앱 이름 표시를 빼서 일반 크롬과 같게 보이게 함.
+app.userAgentFallback = app.userAgentFallback
+  .replace(/ Electron\/\S+/, '')
+  .replace(new RegExp(` ${app.getName().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\/\\S+`), '')
+  .replace(/ site-app-desktop\/\S+/, '');
+
 // 앱은 하나만 실행
 if (!app.requestSingleInstanceLock()) {
   app.quit();

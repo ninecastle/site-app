@@ -25,9 +25,12 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import androidx.core.content.FileProvider;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * site.json 에 적힌 사이트를 주소창 없이 전체 화면으로 띄우는 웹뷰 앱.
@@ -104,6 +107,18 @@ public class MainActivity extends Activity {
         s.setAllowFileAccess(false);
         s.setJavaScriptCanOpenWindowsAutomatically(true);
         s.setSupportMultipleWindows(false); // 새 창 링크도 앱 안에서 열기
+
+        // 구글 로그인은 "앱 속 웹뷰"로 보이면 막히므로(disallowed_useragent),
+        // 일반 크롬 모바일과 같은 User-Agent 로 보이게 함.
+        // ("; wv" 표시와 "Version/4.0" 토큰은 크롬에는 없는 웹뷰 전용 표시)
+        String ua = s.getUserAgentString()
+                .replace("; wv)", ")")
+                .replaceAll("Version/\\d+(\\.\\d+)* ", "");
+        s.setUserAgentString(ua);
+        // 웹뷰는 요청마다 앱 패키지 이름을 X-Requested-With 헤더로 붙이는데, 이것도 끔
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.REQUESTED_WITH_HEADER_ALLOW_LIST)) {
+            WebSettingsCompat.setRequestedWithHeaderOriginAllowList(s, Collections.emptySet());
+        }
 
         CookieManager cookies = CookieManager.getInstance();
         cookies.setAcceptCookie(true);

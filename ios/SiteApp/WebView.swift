@@ -20,6 +20,11 @@ struct WebView: UIViewRepresentable {
         config.allowsPictureInPictureMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = []
         config.preferences.isElementFullscreenEnabled = true
+        // 구글 로그인은 앱 속 웹뷰(WKWebView)로 보이면 막히므로(disallowed_useragent),
+        // User-Agent 끝을 아이폰 사파리와 같게 맞춤.
+        // 기본값 "... (KHTML, like Gecko) Mobile/15E148" → "... Version/18.0 Mobile/15E148 Safari/604.1"
+        let osMajor = ProcessInfo.processInfo.operatingSystemVersion.majorVersion
+        config.applicationNameForUserAgent = "Version/\(osMajor).0 Mobile/15E148 Safari/604.1"
 
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.allowsBackForwardNavigationGestures = true

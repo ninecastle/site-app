@@ -47,4 +47,5 @@ android {
 
 dependencies {
     implementation 'androidx.core:core:1.13.1' // 카메라 사진 저장용 FileProvider
+    implementation 'androidx.webkit:webkit:1.12.1' // 웹뷰 X-Requested-With 헤더 끄기 (구글 로그인)
 }
