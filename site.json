@@ -1,8 +1,8 @@
 {
-  "name": "YouTube",
-  "url": "https://m.youtube.com/",
-  "desktopUrl": "https://www.youtube.com/",
-  "themeColor": "#0f0f0f",
+  "name": "식단 기록",
+  "url": "https://meal-intake-2026.web.app/",
+  "desktopUrl": "https://meal-intake-2026.web.app/",
+  "themeColor": "#F3F6F4",
   "androidId": "com.ninecastle.siteapp",
   "desktopId": "com.ninecastle.siteapp.desktop"
 }

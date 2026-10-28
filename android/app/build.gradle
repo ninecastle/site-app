@@ -17,7 +17,13 @@ android {
         versionName '1.0'
 
         resValue 'string', 'app_name', site.name
-        resValue 'color', 'theme_color', site.themeColor ?: '#000000'
+        def themeHex = (site.themeColor ?: '#000000').replace('#', '')
+        def lum = (0.299 * Integer.parseInt(themeHex.substring(0, 2), 16)
+                 + 0.587 * Integer.parseInt(themeHex.substring(2, 4), 16)
+                 + 0.114 * Integer.parseInt(themeHex.substring(4, 6), 16)) / 255
+        resValue 'color', 'theme_color', '#' + themeHex
+        // 밝은 배경이면 상태바 아이콘을 어둡게
+        resValue 'bool', 'light_status_bar', (lum > 0.5).toString()
         buildConfigField 'String', 'START_URL', "\"${site.url}\""
     }
 
@@ -37,4 +43,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.13.1' // 카메라 사진 저장용 FileProvider
 }

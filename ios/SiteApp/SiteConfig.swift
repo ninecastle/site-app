@@ -3,8 +3,8 @@ import UIKit
 /// 아이폰 앱 설정 — 사이트를 바꿀 때 여기와 맨 위의 site.json 을 같이 고치세요.
 /// (앱 이름은 Xcode → 타깃 → General → Display Name 에서도 바꿀 수 있어요.)
 enum SiteConfig {
-    static let startURL = URL(string: "https://m.youtube.com/")!
-    static let themeColorHex = "#0f0f0f"
+    static let startURL = URL(string: "https://meal-intake-2026.web.app/")!
+    static let themeColorHex = "#F3F6F4"
 
     static var themeColor: UIColor { UIColor(hex: themeColorHex) }
 
